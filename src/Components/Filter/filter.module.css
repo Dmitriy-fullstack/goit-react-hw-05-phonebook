@@ -1,0 +1,12 @@
+.filter {
+  background-color: rgb(138, 152, 201);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border: 1px solid gray;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  width: 350px;
+}
