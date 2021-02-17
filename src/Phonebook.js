@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import { CSSTransition } from "react-transition-group";
 import ContactForm from "./Components/ContactForm/ContactForm";
 import ContactList from "./Components/ContactList/ContactList";
 import Filter from "./Components/Filter/Filter";
 import { v4 as uuidv4 } from "uuid";
 import swal from "sweetalert";
 import style from "./phonebook.module.css";
+import Message from "./Components/Message/Message";
 
 class Phonebook extends Component {
   state = {
@@ -12,6 +14,7 @@ class Phonebook extends Component {
     filter: "",
     name: "",
     number: "",
+    error: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -37,7 +40,11 @@ class Phonebook extends Component {
         ({ name }) => name.toLowerCase() === data.name.toLowerCase()
       )
     ) {
-      swal("Cant add!", "Contact already exist!", "error");
+      this.setState({ error: true });
+      setTimeout(() => {
+        this.setState({ error: false });
+      }, 2000);
+
       return;
     }
 
@@ -68,19 +75,56 @@ class Phonebook extends Component {
 
     return (
       <div className={style.wrapper}>
-        <h1 className={style.title}>Phonebook</h1>
+        <CSSTransition
+          in={true}
+          appear={true}
+          timeout={500}
+          classNames={style}
+          unmountOnExit
+        >
+          <h1 className={style.title}>Phonebook</h1>
+        </CSSTransition>
         <div className={style.formSearch}>
           <ContactForm onSubmit={this.onSubmitHendler} />
         </div>
-
-        <Filter
-          value={this.state.filter}
-          onChangeFilter={this.onFilterHendler}
-        />
-        <ContactList
-          contacts={visibleContacts}
-          onContactDelete={this.contactDelete}
-        />
+        <CSSTransition
+          in={visibleContacts.length > 0}
+          timeout={250}
+          classNames={style}
+          unmountOnExit
+        >
+          <Filter
+            value={this.state.filter}
+            onChangeFilter={this.onFilterHendler}
+          />
+        </CSSTransition>
+        <CSSTransition
+          in={visibleContacts.length > 0}
+          timeout={250}
+          classNames={style}
+          unmountOnExit
+        >
+          <ContactList
+            contacts={visibleContacts}
+            onContactDelete={this.contactDelete}
+          />
+        </CSSTransition>
+        <CSSTransition
+          in={visibleContacts.length <= 0}
+          timeout={250}
+          classNames={style}
+          unmountOnExit
+        >
+          <p className={style.warning}>Enter data, please</p>
+        </CSSTransition>
+        <CSSTransition
+          in={this.state.error === true}
+          timeout={250}
+          classNames={style}
+          unmountOnExit
+        >
+          <Message />
+        </CSSTransition>
       </div>
     );
   }
