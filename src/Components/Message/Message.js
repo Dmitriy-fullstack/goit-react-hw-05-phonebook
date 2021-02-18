@@ -1,6 +1,5 @@
 import React from "react";
 import style from "./message.module.css";
-// import swal from "sweetalert";
 
 function Message() {
   return (

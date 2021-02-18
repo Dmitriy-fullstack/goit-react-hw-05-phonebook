@@ -43,11 +43,18 @@ class Phonebook extends Component {
       this.setState({ error: true });
       setTimeout(() => {
         this.setState({ error: false });
-      }, 2000);
+      }, 2500);
 
       return;
     }
-
+    if (data.name === "") {
+      swal("Enter concact name, please!");
+      return;
+    }
+    if (data.number === "") {
+      swal("Enter concact phone, please!");
+      return;
+    }
     this.setState(({ contacts }) => {
       return { contacts: [...contacts, newContacts] };
     });
@@ -67,6 +74,7 @@ class Phonebook extends Component {
   contactDelete = (id) => {
     this.setState({
       contacts: this.state.contacts.filter((contact) => contact.id !== id),
+      filter: "",
     });
   };
 
@@ -88,7 +96,7 @@ class Phonebook extends Component {
           <ContactForm onSubmit={this.onSubmitHendler} />
         </div>
         <CSSTransition
-          in={visibleContacts.length > 0}
+          in={this.state.contacts.length > 0}
           timeout={250}
           classNames={style}
           unmountOnExit
@@ -98,6 +106,15 @@ class Phonebook extends Component {
             onChangeFilter={this.onFilterHendler}
           />
         </CSSTransition>
+        <CSSTransition
+          in={visibleContacts.length > 0}
+          timeout={250}
+          classNames={style}
+          unmountOnExit
+        >
+          <h2>Contacts</h2>
+        </CSSTransition>
+
         <CSSTransition
           in={visibleContacts.length > 0}
           timeout={250}

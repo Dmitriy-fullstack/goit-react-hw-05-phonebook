@@ -5,30 +5,27 @@ import style from "./contactList.module.css";
 
 function ContactList({ contacts, onContactDelete }) {
   return (
-    <>
-      <h2>Contacts</h2>
-      <TransitionGroup component="ul" className={style.list}>
-        {contacts.map((contact) => {
-          const { name, number, id } = contact;
-          return (
-            <CSSTransition key={uuidv4()} timeout={250} classNames={style}>
-              <li className={style.listItem}>
-                <p className={style.listItemName}>
-                  {name}: {number}
-                </p>
-                <button
-                  className={style.deleteButton}
-                  type="button"
-                  onClick={() => onContactDelete(id)}
-                >
-                  Delete
-                </button>
-              </li>
-            </CSSTransition>
-          );
-        })}
-      </TransitionGroup>
-    </>
+    <TransitionGroup component="ul" className={style.list}>
+      {contacts.map((contact) => {
+        const { name, number, id } = contact;
+        return (
+          <CSSTransition key={id} timeout={250} classNames={style}>
+            <li className={style.listItem}>
+              <p className={style.listItemName}>
+                {name}: {number}
+              </p>
+              <button
+                className={style.deleteButton}
+                type="button"
+                onClick={() => onContactDelete(id)}
+              >
+                Delete
+              </button>
+            </li>
+          </CSSTransition>
+        );
+      })}
+    </TransitionGroup>
   );
 }
 
