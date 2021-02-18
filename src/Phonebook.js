@@ -24,7 +24,7 @@ class Phonebook extends Component {
   }
   componentDidMount() {
     const contacts = localStorage.getItem("contacts");
-    const parsedContacts = JSON.parse(contacts);
+    const parsedContacts = contacts ? JSON.parse(contacts) : [];
     this.setState({ contacts: parsedContacts });
   }
 
