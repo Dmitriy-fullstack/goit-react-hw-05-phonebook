@@ -95,7 +95,7 @@ class Phonebook extends Component {
           <ContactForm onSubmit={this.onSubmitHendler} />
         </div>
         <CSSTransition
-          in={visibleContacts.length > 0}
+          in={this.state.contacts.length > 0}
           timeout={250}
           classNames={style}
           unmountOnExit
