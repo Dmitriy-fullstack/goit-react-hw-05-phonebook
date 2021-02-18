@@ -74,7 +74,6 @@ class Phonebook extends Component {
   contactDelete = (id) => {
     this.setState({
       contacts: this.state.contacts.filter((contact) => contact.id !== id),
-      filter: "",
     });
   };
 
